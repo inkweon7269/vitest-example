@@ -1,12 +1,28 @@
-import {describe, expect, it} from "vitest";
-import Home from "@/app/page";
+import {afterEach, describe, expect, it, vi} from "vitest";
 import {screen} from "@testing-library/dom";
-import {renderWithProviders} from "@/utils/test/render";
 
-describe("LoginForm", () => {
-    it('테스트 결과를 확인합니다.', async () => {
-        renderWithProviders(<Home />);
-        const text = await screen.findByText('Vitest Example!!!');
-        expect(text).toBeInTheDocument();
+import TextField from "@/components/TextField";
+import {cleanup, render} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
+describe("TextField", () => {
+    afterEach(() => {
+        cleanup();
     });
+
+
+    it('기본 placeholder "텍스트를 입력해 주세요."가 노출됩니다.', async () => {
+        render(<TextField />);
+        const input = screen.getByPlaceholderText('텍스트를 입력해 주세요.');
+        expect(input).toBeInTheDocument();
+    });
+
+    it('텍스트를 입력하면 onChange prop으로 등록한 함수가 호출된다.', async () => {
+        const spy = vi.fn();
+        render(<TextField onChange={spy} />);
+        const input = screen.getByPlaceholderText('텍스트를 입력해 주세요.');
+
+        await userEvent.type(input, 'test');
+        expect(spy).toHaveBeenCalledWith('test');
+    })
 });
