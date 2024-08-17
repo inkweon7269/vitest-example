@@ -5,7 +5,7 @@ export interface ILabelProps {
 
 const Label = ({ children, htmlFor }: ILabelProps) => {
   return (
-    <label htmlFor={htmlFor} style={{ color: "red" }}>
+    <label htmlFor={htmlFor} style={{ color: "blue" }}>
       {children}
     </label>
   );
