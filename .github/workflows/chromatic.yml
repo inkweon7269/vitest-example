@@ -1,5 +1,7 @@
 name: "Chromatic"
+
 on: pull_request
+
 jobs:
   chromatic:
     name: Run Chromatic
@@ -9,17 +11,26 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.yarn/cache
+            ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache --check-cache
+
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
-      - name: comment PR
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          message: "🚀storybook: ${{ steps.chromatic.outputs.storybookUrl }}"
