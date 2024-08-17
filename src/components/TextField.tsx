@@ -1,25 +1,47 @@
-import React, {FC, useState} from 'react';
+import React, { ChangeEvent, MouseEvent } from "react";
+import IconButton from "@/components/atoms/IconButton";
+import ErrorMessage from "@/components/atoms/ErrorMessage";
 
-interface IPropsTextField {
-    onChange?: (text: string) => void;
+interface ITextFieldProps {
+  iconPath: string;
+  alt: string;
+  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
+  errorMessage: string;
+  placeholder: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  isError: boolean;
+  id: string;
 }
 
-const TextField: FC<IPropsTextField> = ({onChange}) => {
-    const [value, setValue] = useState('');
-
-    const changeValue = (e) => {
-        setValue(e.target.value);
-        onChange?.(e.target.value);
-    }
-
-    return (
-        <input
-            type="text"
-            placeholder="텍스트를 입력해 주세요."
-            onChange={changeValue}
-            value={value}
-        />
-    );
+const TextField = ({
+  iconPath,
+  alt,
+  onClick,
+  errorMessage,
+  placeholder,
+  onChange,
+  value,
+  isError,
+  id,
+}: ITextFieldProps) => {
+  return (
+    <div style={{ position: "relative" }}>
+      <input
+        id={id}
+        placeholder={placeholder}
+        value={value}
+        type="text"
+        onChange={onChange}
+      />
+      {value && <IconButton iconPath={iconPath} alt={alt} onClick={onClick} />}
+      {isError && (
+        <div style={{ position: "absolute" }}>
+          <ErrorMessage>{errorMessage}</ErrorMessage>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default TextField;

@@ -9,7 +9,10 @@
     "lint": "next lint",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "test:coverage:ui": "vitest --coverage --ui"
+    "test:coverage:ui": "vitest --coverage --ui",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_754b74eb034e496"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -23,6 +26,15 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^1.6.1",
+    "@storybook/addon-essentials": "^8.2.8",
+    "@storybook/addon-interactions": "^8.2.8",
+    "@storybook/addon-links": "^8.2.8",
+    "@storybook/addon-onboarding": "^8.2.8",
+    "@storybook/blocks": "^8.2.8",
+    "@storybook/nextjs": "^8.2.8",
+    "@storybook/react": "^8.2.8",
+    "@storybook/test": "^8.2.8",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
@@ -33,10 +45,13 @@
     "@vitejs/plugin-react": "^4.3.1",
     "@vitest/coverage-v8": "^2.0.4",
     "@vitest/ui": "^2.0.4",
+    "chromatic": "^11.7.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "eslint-plugin-storybook": "^0.8.0",
     "jsdom": "^24.1.1",
     "msw": "^2.3.4",
+    "storybook": "^8.2.8",
     "typescript": "^5",
     "vite-plugin-magical-svg": "^1.3.0",
     "vite-tsconfig-paths": "^4.3.2",
