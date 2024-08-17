@@ -29,4 +29,4 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
-          message: "🚀storybook: ${{ steps.extract_url.outputs.storybookUrl }}"
+          message: "🚀storybook: ${{ steps.chromatic.outputs.storybookUrl }}"
