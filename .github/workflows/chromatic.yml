@@ -4,6 +4,8 @@ jobs:
   chromatic:
     name: Run Chromatic
     runs-on: ubuntu-latest
+    outputs:
+      status: ${{ job.status }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,11 +25,6 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
-
-      - name: Extract Storybook URL
-        id: extract_url
-        run: echo "::set-output name=storybookUrl::$(echo $(cat chromatic-output.log | grep -o 'https://.*\.chromatic\.com'))"
-        shell: bash
 
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
