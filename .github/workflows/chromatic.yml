@@ -1,7 +1,5 @@
 name: "Chromatic"
-
 on: pull_request
-
 jobs:
   chromatic:
     name: Run Chromatic
@@ -12,19 +10,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Cache Yarn dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.yarn/cache
-            ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-storybook
+
+      - name: depedency install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
 
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache --check-cache
@@ -34,3 +33,8 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
+
+      - name: comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: "🚀storybook: ${{ steps.chromatic.outputs.storybookUrl }}"
